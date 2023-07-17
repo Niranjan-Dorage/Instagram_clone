@@ -16,7 +16,6 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   // text editing controllers
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
 
   // sign user in method
@@ -114,7 +113,6 @@ class _LoginpageState extends State<Loginpage> {
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.black,
         body: GestureDetector(
             onTap: () {
               FocusScope.of(context).requestFocus(new FocusNode());
@@ -136,12 +134,11 @@ class _LoginpageState extends State<Loginpage> {
                 margin: EdgeInsets.only(left: 15, right: 15),
                 height: 45,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 69, 69, 69),
+                  color: Color.fromARGB(151, 69, 69, 69),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextField(
                   controller: emailController,
-                  cursorColor: const Color.fromARGB(255, 255, 255, 255),
                   keyboardType: TextInputType.name,
                   style: TextStyle(
                     fontFamily: "roboto",
@@ -166,13 +163,12 @@ class _LoginpageState extends State<Loginpage> {
                     EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 12),
                 height: 45,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 69, 69, 69),
+                  color: Color.fromARGB(151, 69, 69, 69),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextField(
                   controller: passwordController,
                   obscureText: true,
-                  cursorColor: Color.fromARGB(255, 255, 255, 255),
                   keyboardType: TextInputType.name,
                   style: TextStyle(
                     fontFamily: "roboto",
@@ -227,9 +223,9 @@ class _LoginpageState extends State<Loginpage> {
                   child: Text(
                     'Forgot Password',
                     style: TextStyle(
-                        fontSize: 13,
-                        fontFamily: 'Poppins-Regular',
-                        color: Color.fromARGB(255, 255, 255, 255)),
+                      fontSize: 13,
+                      fontFamily: 'Poppins-Regular',
+                    ),
                   ),
                 ),
               ),
@@ -254,7 +250,6 @@ class _LoginpageState extends State<Loginpage> {
                     'New User? Create Account',
                     style: TextStyle(
                       fontSize: 15,
-                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                 ),

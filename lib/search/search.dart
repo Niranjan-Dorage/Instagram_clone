@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_clone/provider/followbuttonprovider.dart';
 import 'package:insta_clone/search/friendaccount.dart';
+import 'package:provider/provider.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -21,140 +22,206 @@ class _SearchState extends State<Search> {
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          // call this method here to hide soft keyboard
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              const SliverAppBar(
-                automaticallyImplyLeading: false,
-                expandedHeight: 100.0,
-                floating: false,
-                pinned: false,
-                backgroundColor: Colors.transparent,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text("Search",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w800,
-                      )),
-                ),
-              ),
-            ];
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 85,
+          title: Text("Search",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w800,
+              )),
+        ),
+        body: GestureDetector(
+          onTap: () {
+            // call this method here to hide soft keyboard
+            FocusScope.of(context).requestFocus(new FocusNode());
           },
-          body: Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: ListView(
-              children: [
-                Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: MyCustomForm()),
-                        ),
-                      ],
-                    ),
-                    StreamBuilder<QuerySnapshot>(
-                      stream: _usersStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return Text('Something went wrong');
-                        }
+          child: ListView(
+            children: [
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: MyCustomForm()),
+                      ),
+                    ],
+                  ),
+                  StreamBuilder<QuerySnapshot>(
+                    stream: _usersStream,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong');
+                      }
 
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Text("Loading..");
-                        }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text("Loading..");
+                      }
 
-                        return Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Column(
-                            children: snapshot.data!.docs
-                                .map((DocumentSnapshot document) {
-                              Map<String, dynamic> data =
-                                  document.data()! as Map<String, dynamic>;
+                      return Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Column(
+                          children: snapshot.data!.docs
+                              .map((DocumentSnapshot document) {
+                            Map<String, dynamic> data =
+                                document.data()! as Map<String, dynamic>;
 
-                              return GestureDetector(
-                                onTap: (() {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => Friendaccount(
-                                            userid: data['userid'],
-                                          )));
-                                }),
-                                child: Container(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 55,
-                                        height: 55,
-                                        margin: EdgeInsets.only(left: 10),
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    data['imageurl']),
-                                                fit: BoxFit.cover),
-                                            color:
-                                                Color.fromARGB(255, 82, 82, 82),
-                                            borderRadius:
-                                                BorderRadius.circular(100)),
-                                      ),
-                                      Container(
-                                        // color: Colors.red,
-                                        margin: EdgeInsets.only(left: 15),
-                                        // width: 180,
-                                        height: 25,
-                                        child: Text(data['username'],
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 17)),
-                                      ),
-                                      Expanded(child: Text("")),
-                                      Container(
-                                        height: 40,
-                                        width: size.width / 3.5,
-                                        margin: EdgeInsets.only(right: 10),
-                                        decoration: BoxDecoration(
-                                            color: Color.fromARGB(
-                                                255, 0, 221, 255),
-                                            borderRadius:
-                                                BorderRadius.circular(7)),
-                                        child: TextButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              "Follow",
-                                              style: TextStyle(
-                                                  color: const Color.fromARGB(
-                                                      255, 0, 0, 0)),
-                                            )),
-                                      )
-                                    ],
-                                  ),
-                                  margin: EdgeInsets.only(
-                                      left: 10, right: 10, top: 15),
-                                  width: double.infinity,
-                                  height: 65,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Color.fromARGB(255, 31, 31, 31)),
+                            return GestureDetector(
+                              onTap: (() {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Friendaccount(
+                                          userid: data['userid'],
+                                        )));
+                              }),
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 10, right: 10, top: 15),
+                                width: double.infinity,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Color.fromARGB(84, 111, 111, 111)),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 55,
+                                      height: 55,
+                                      margin: EdgeInsets.only(left: 10),
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  data['imageurl']),
+                                              fit: BoxFit.cover),
+                                          color:
+                                              Color.fromARGB(255, 82, 82, 82),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                    ),
+                                    Container(
+                                      // color: Colors.red,
+                                      margin: EdgeInsets.only(left: 15),
+                                      // width: 180,
+                                      height: 25,
+                                      child: Text(data['username'],
+                                          style: TextStyle(fontSize: 17)),
+                                    ),
+                                    Expanded(child: Text("")),
+                                    Consumer<Followbuttonprovider>(
+                                        builder: (context, value, child) {
+                                      print("build");
+
+                                      return TextButton(
+                                          onPressed: () async {
+                                            if (value
+                                                .isFollowed(data['userid'])) {
+                                              value.unfollow(data['userid']);
+                                            } else {
+                                              value.follow(data['userid']);
+                                            }
+
+                                            // await FirebaseFirestore.instance
+                                            //     .collection('users')
+                                            //     .doc(FirebaseAuth
+                                            //         .instance.currentUser!.uid)
+                                            //     .collection('data')
+                                            //     .doc(FirebaseAuth
+                                            //         .instance.currentUser!.uid)
+                                            //     .collection('following')
+                                            //     .doc()
+                                            //     .set(
+                                            //         {'userid': data['userid']});
+                                            // await FirebaseFirestore.instance
+                                            //     .collection('users')
+                                            //     .doc(data['userid'])
+                                            //     .collection('data')
+                                            //     .doc(data['userid'])
+                                            //     .collection('followers')
+                                            //     .doc()
+                                            //     .set({
+                                            //   'userid': FirebaseAuth
+                                            //       .instance.currentUser!.uid
+                                            // });
+
+                                            // setState(() {
+                                            //   if (pressed) {
+                                            //     pressed = false;
+                                            //   } else {
+                                            //     pressed = true;
+                                            //   }
+                                            // });
+                                          },
+                                          child: value.isFollowed(data['userid'])
+                                              ? Container(
+                                                  height: 40,
+                                                  width: size.width / 3.5,
+                                                  margin: EdgeInsets.only(
+                                                      right: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: Color.fromARGB(
+                                                          145, 102, 102, 102),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7)),
+                                                  child: Center(
+                                                      child: Text("Following",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white))),
+                                                )
+                                              : Container(
+                                                  height: 40,
+                                                  width: size.width / 3.5,
+                                                  margin: EdgeInsets.only(
+                                                      right: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: Color.fromARGB(
+                                                          255, 2, 198, 228),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7)),
+                                                  child: Center(
+                                                      child: Text(
+                                                    "Follow",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  )),
+                                                ));
+                                    }
+                                        // else {
+                                        //   return Container(
+                                        //     height: 40,
+                                        //     width: size.width / 3.5,
+                                        //     margin: EdgeInsets.only(right: 10),
+                                        //     decoration: BoxDecoration(
+                                        //         color: Color.fromARGB(
+                                        //             145, 102, 102, 102),
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(7)),
+                                        //     child: Center(
+                                        //         child: Text(
+                                        //       "Following",
+                                        //       style: TextStyle(
+                                        //           color: Colors.white),
+                                        //     )),
+                                        //   );
+                                        // }
+
+                                        ),
+                                  ],
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -174,10 +241,11 @@ class _MyCustomFormState extends State<MyCustomForm> {
     final SearchController = TextEditingController();
 
     return (Container(
+      margin: EdgeInsets.only(top: 10),
       height: 50,
       padding: EdgeInsets.only(left: 10),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: Color.fromARGB(255, 211, 211, 211),
         borderRadius: BorderRadius.circular(11),
       ),
       child: TextField(

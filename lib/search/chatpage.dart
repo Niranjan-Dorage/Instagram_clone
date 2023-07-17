@@ -44,7 +44,6 @@ class Chatpage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Color.fromARGB(255, 0, 0, 0),
           title: Row(
             children: [
               Container(
@@ -53,7 +52,6 @@ class Chatpage extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                     icon: Icon(
                       Icons.navigate_before_rounded,
-                      color: Colors.white,
                       size: 40,
                     )),
               ),
@@ -74,7 +72,7 @@ class Chatpage extends StatelessWidget {
                 margin: EdgeInsets.only(top: 5),
                 child: Text(
                   friendusername,
-                  style: TextStyle(fontSize: 19, color: Colors.white),
+                  style: TextStyle(fontSize: 19),
                 ),
               ),
               Expanded(child: Text("")),
@@ -96,12 +94,11 @@ class Chatpage extends StatelessWidget {
                       });
                       chatcontroller.text = "";
                     },
-                    icon: Image(image: AssetImage("assets/images/send.png"))),
+                    icon: ImageIcon(AssetImage("assets/images/send.png"))),
               ),
             ],
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 21, 21, 21),
         body: SafeArea(
             child: Column(
           children: [
@@ -165,7 +162,7 @@ class Chatpage extends StatelessWidget {
                                   margin: EdgeInsets.only(
                                       top: 10, left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 38, 38, 38),
+                                    color: Color.fromARGB(212, 53, 53, 53),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -205,7 +202,7 @@ class Chatpage extends StatelessWidget {
                                   margin: EdgeInsets.only(
                                       top: 10, left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 29, 29, 29),
+                                    color: Color.fromARGB(183, 55, 55, 55),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -253,7 +250,7 @@ class Chatpage extends StatelessWidget {
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 0.5),
                   borderRadius: BorderRadius.circular(10)),
-              margin: EdgeInsets.only(bottom: 10, left: 2, right: 2),
+              margin: EdgeInsets.only(bottom: 10, left: 5, right: 5),
               child: TextField(
                 controller: chatcontroller,
                 cursorColor: Color.fromARGB(255, 0, 203, 200),
@@ -263,7 +260,7 @@ class Chatpage extends StatelessWidget {
                   fontSize: 20,
                 ),
                 decoration: InputDecoration(
-                  fillColor: Color.fromARGB(255, 0, 0, 0),
+                  fillColor: Color.fromARGB(168, 37, 37, 37),
                   filled: true,
                   border: OutlineInputBorder(
                     borderSide: BorderSide(

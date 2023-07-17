@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 import 'largeimg.dart';
+
 class Story extends StatelessWidget {
   final imglink;
   Story({required this.imglink});
@@ -34,7 +35,7 @@ class Story extends StatelessWidget {
                   fit: BoxFit.cover,
                   image: NetworkImage(imglink),
                 ),
-                color: Color.fromARGB(255, 66, 65, 65),
+                color: Color.fromARGB(126, 66, 65, 65),
                 borderRadius: BorderRadius.circular(1500)),
           ),
         ),
@@ -45,7 +46,6 @@ class Story extends StatelessWidget {
           child: Align(
             child: Text(
               "mr.x",
-              style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)),
             ),
           ),
         )

@@ -37,7 +37,6 @@ class Editpost extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              backgroundColor: Color.fromARGB(255, 0, 0, 0),
               title: Row(
                 children: [
                   Container(
@@ -46,7 +45,6 @@ class Editpost extends StatelessWidget {
                         onPressed: () => Navigator.pop(context),
                         icon: Icon(
                           Icons.navigate_before_rounded,
-                          color: Colors.white,
                           size: 40,
                         )),
                   ),
@@ -54,28 +52,31 @@ class Editpost extends StatelessWidget {
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
                       "Edit Post",
-                      style: TextStyle(fontSize: 19, color: Colors.white),
+                      style: TextStyle(fontSize: 19),
                     ),
                   ),
                 ],
               ),
             ),
-            backgroundColor: Colors.black,
             body: Center(
               child: Container(
                 width: 200,
                 height: 60,
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 47, 47, 47),
+                    color: Color.fromARGB(147, 47, 47, 47),
                     borderRadius: BorderRadius.circular(10)),
                 child: TextButton(
-                    onPressed: () {
+                    onPressed: () async{
                       deleteImage();
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser?.uid)
+                          .update({'postcount': FieldValue.increment(-1)});
                       Navigator.pop(context);
                     },
                     child: Text(
                       "Delete Post",
-                      style: TextStyle(fontSize: 17),
+                      style: TextStyle(color: Colors.white, fontSize: 17),
                     )),
               ),
             )),

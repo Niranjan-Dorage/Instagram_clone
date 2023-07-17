@@ -18,13 +18,16 @@ class _new_userState extends State<new_user> {
   String doc = "";
   String uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
   String unique = "";
+  int valuee = 0;
 
+  String email = "", pass = "", phone = "", username = "", imageurl = "";
   // final docUser = FirebaseFirestore.instance.collection('users').doc();
   File? file;
   ImagePicker image = ImagePicker();
   @override
   Widget build(BuildContext context) {
-    String email = "", pass = "", phone = "", username = "", imageurl = "";
+    Size size = MediaQuery.of(context).size;
+
     return SafeArea(
         child: GestureDetector(
       onTap: () {
@@ -33,21 +36,12 @@ class _new_userState extends State<new_user> {
       },
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 0, 0, 0),
-              Color.fromARGB(255, 24, 24, 24),
-              Color.fromARGB(255, 24, 24, 24),
-              Color.fromARGB(255, 0, 0, 0),
-            ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-          ),
           child: ListView(scrollDirection: Axis.vertical, children: [
             Row(
               children: [
                 Container(
                   child: IconButton(
                       icon: Icon(Icons.navigate_before_rounded),
-                      color: Colors.white,
                       iconSize: 46,
                       onPressed: () {
                         Navigator.pop(context);
@@ -60,7 +54,6 @@ class _new_userState extends State<new_user> {
                     style: TextStyle(
                         fontFamily: 'right',
                         fontSize: 25,
-                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.4),
                   ),
@@ -72,12 +65,11 @@ class _new_userState extends State<new_user> {
               margin: EdgeInsets.only(top: 50, left: 15, right: 15, bottom: 20),
               height: 45,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 69, 69, 69),
+                color: Color.fromARGB(151, 69, 69, 69),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
                 onChanged: (value) => username = value,
-                cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 keyboardType: TextInputType.name,
                 style: TextStyle(
                   fontFamily: "roboto",
@@ -101,12 +93,11 @@ class _new_userState extends State<new_user> {
               margin: EdgeInsets.only(left: 15, right: 15, bottom: 20),
               height: 45,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 69, 69, 69),
+                color: Color.fromARGB(151, 69, 69, 69),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
                 onChanged: (value) => phone = value,
-                cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 keyboardType: TextInputType.phone,
                 style: TextStyle(
                   fontFamily: "roboto",
@@ -130,12 +121,11 @@ class _new_userState extends State<new_user> {
               margin: EdgeInsets.only(left: 15, right: 15, bottom: 20),
               height: 45,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 69, 69, 69),
+                color: Color.fromARGB(151, 69, 69, 69),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
                 onChanged: (value) => email = value,
-                cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
                   fontFamily: "roboto",
@@ -160,13 +150,12 @@ class _new_userState extends State<new_user> {
               margin: EdgeInsets.only(left: 15, right: 15, bottom: 12),
               height: 45,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 69, 69, 69),
+                color: Color.fromARGB(151, 69, 69, 69),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
                 onChanged: (value) => pass = value,
                 obscureText: true,
-                cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
                   fontFamily: "roboto",
@@ -195,10 +184,12 @@ class _new_userState extends State<new_user> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Color.fromARGB(198, 208, 208, 208),
                       borderRadius: BorderRadius.circular(120)),
                   child: IconButton(
                       onPressed: () async {
+                        FocusScope.of(context).requestFocus(new FocusNode());
+
                         // ignore: deprecated_member_use
                         PickedFile? file =
                             // ignore: deprecated_member_use
@@ -225,8 +216,12 @@ class _new_userState extends State<new_user> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return Center(
-                                child: CircularProgressIndicator(),
+                              return Container(
+                                width: size.width,
+                                height: size.height,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               );
                             });
                         UploadTask uploadTask =
@@ -266,12 +261,13 @@ class _new_userState extends State<new_user> {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return const Center(
+                        return Center(
                           child: CircularProgressIndicator(),
                         );
                       },
                     );
                     try {
+                      print("hello " + email + "  " + pass);
                       await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
                         email: email,
@@ -287,6 +283,9 @@ class _new_userState extends State<new_user> {
                         'phone': phone,
                         'userid': FirebaseAuth.instance.currentUser?.uid,
                         'username': username,
+                        'postcount': valuee,
+                        'followercount': valuee,
+                        'followingcount': valuee,
                         'uniquefilename': uniquefilename,
                       });
 

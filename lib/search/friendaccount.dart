@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import '../provider/followbuttonprovider.dart';
 import '../usertp/comments.dart';
 import '../usertp/largeimg.dart';
 import 'chatpage.dart';
@@ -47,7 +49,8 @@ class FriendaccountState extends State<Friendaccount>
         .doc(widget.userid)
         .collection('data')
         .doc(widget.userid)
-        .collection('posts').orderBy('Timestamp', descending: false)
+        .collection('posts')
+        .orderBy('Timestamp', descending: false)
         .snapshots();
     final Stream<QuerySnapshot> posts = FirebaseFirestore.instance
         .collection('users')
@@ -79,19 +82,16 @@ class FriendaccountState extends State<Friendaccount>
               profile = data['imageurl'];
               return Expanded(
                 child: Scaffold(
-                  backgroundColor: Color.fromARGB(255, 0, 0, 0),
                   appBar: AppBar(
                     automaticallyImplyLeading: false,
-                    backgroundColor: Color.fromARGB(255, 0, 0, 0),
                     toolbarHeight: 293,
                     title: Column(children: [
                       Row(
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 0, 0, 0),
                                 borderRadius: BorderRadius.circular(10)),
-              
+
                             child: Container(
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
@@ -99,7 +99,7 @@ class FriendaccountState extends State<Friendaccount>
                                 style: TextStyle(fontSize: 19),
                               ),
                             ),
-              
+
                             // child: Text(
                             //   userId!.uid,
                             //   style: TextStyle(fontSize: 14),
@@ -113,11 +113,10 @@ class FriendaccountState extends State<Friendaccount>
                           Container(
                             margin: EdgeInsets.only(top: 3),
                             child: IconButton(
-                                onPressed: null,
+                                onPressed: () {},
                                 icon: Icon(
                                   Icons.arrow_drop_down,
                                   size: 29,
-                                  color: Colors.white,
                                 )),
                           ),
                           Expanded(child: Text("")),
@@ -155,7 +154,6 @@ class FriendaccountState extends State<Friendaccount>
                                 icon: Icon(
                                   Icons.menu,
                                   size: 29,
-                                  color: Colors.white,
                                 )),
                           )
                         ],
@@ -166,22 +164,20 @@ class FriendaccountState extends State<Friendaccount>
                             children: [
                               GestureDetector(
                                 onTap: (() {
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(
-                                          builder: (context) => Largeimg(
-                                                imglink: data['imageurl'],
-                                              )));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Largeimg(
+                                            imglink: data['imageurl'],
+                                          )));
                                 }),
                                 child: Container(
-                                    margin:
-                                        EdgeInsets.only(top: 25, left: 10),
+                                    margin: EdgeInsets.only(top: 25, left: 10),
                                     width: 90,
                                     height: 90,
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(300),
-                                        color: const Color.fromARGB(
-                                            255, 109, 109, 109),
+                                        color:
+                                            Color.fromARGB(103, 109, 109, 109),
                                         image: DecorationImage(
                                             fit: BoxFit.cover,
                                             image: NetworkImage(
@@ -196,17 +192,15 @@ class FriendaccountState extends State<Friendaccount>
                               children: [
                                 Container(
                                   child: Text(
-                                    "0",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                                    data['postcount'].toString(),
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: Text(
                                     "Posts",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
+                                    style: TextStyle(fontSize: 14),
                                   ),
                                 )
                               ],
@@ -219,17 +213,15 @@ class FriendaccountState extends State<Friendaccount>
                               children: [
                                 Container(
                                   child: Text(
-                                    "28",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                                    data['followercount'].toString(),
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: Text(
                                     "Followers",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
+                                    style: TextStyle(fontSize: 14),
                                   ),
                                 )
                               ],
@@ -242,17 +234,15 @@ class FriendaccountState extends State<Friendaccount>
                               children: [
                                 Container(
                                   child: Text(
-                                    "21",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                                    data['followingcount'].toString(),
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: Text(
                                     "Following",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
+                                    style: TextStyle(fontSize: 14),
                                   ),
                                 )
                               ],
@@ -262,11 +252,11 @@ class FriendaccountState extends State<Friendaccount>
                         ],
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 15),
+                        margin: EdgeInsets.only(top: 15, bottom: 20),
                         alignment: Alignment.topLeft,
                         child: Text(
                           "bio:",
-                          style: TextStyle(color: Colors.white, fontSize: 15),
+                          style: TextStyle(fontSize: 15),
                         ),
                       ),
                       Container(
@@ -274,30 +264,89 @@ class FriendaccountState extends State<Friendaccount>
                         child: Row(
                           children: [
                             Expanded(child: Text("")),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 0, 221, 255),
-                                  borderRadius: BorderRadius.circular(7)),
-                              height: 32,
-                              width: size.width / 2.4,
-                              margin: EdgeInsets.only(top: 20),
-                              child: TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    "Follow",
-                                    style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 0, 0, 0)),
-                                  )),
+                            Consumer<Followbuttonprovider>(
+                              builder: (context, value, child) {
+                                print("build");
+                                return TextButton(
+                                    onPressed: () async {
+                                      if (value.isFollowed(data['userid'])) {
+                                        value.unfollow(data['userid']);
+                                      } else {
+                                        value.follow(data['userid']);
+                                      }
+
+                                      // await FirebaseFirestore.instance
+                                      //     .collection('users')
+                                      //     .doc(FirebaseAuth
+                                      //         .instance.currentUser!.uid)
+                                      //     .collection('data')
+                                      //     .doc(FirebaseAuth
+                                      //         .instance.currentUser!.uid)
+                                      //     .collection('following')
+                                      //     .doc()
+                                      //     .set(
+                                      //         {'userid': data['userid']});
+                                      // await FirebaseFirestore.instance
+                                      //     .collection('users')
+                                      //     .doc(data['userid'])
+                                      //     .collection('data')
+                                      //     .doc(data['userid'])
+                                      //     .collection('followers')
+                                      //     .doc()
+                                      //     .set({
+                                      //   'userid': FirebaseAuth
+                                      //       .instance.currentUser!.uid
+                                      // });
+
+                                      // setState(() {
+                                      //   if (pressed) {
+                                      //     pressed = false;
+                                      //   } else {
+                                      //     pressed = true;
+                                      //   }
+                                      // });
+                                    },
+                                    child: value.isFollowed(data['userid'])
+                                        ? Container(
+                                            height: 32,
+                                            width: size.width / 2.4,
+                                            margin: EdgeInsets.only(right: 10),
+                                            decoration: BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    154, 89, 89, 89),
+                                                borderRadius:
+                                                    BorderRadius.circular(7)),
+                                            child: Center(
+                                                child: Text("Following",
+                                                    style: TextStyle(
+                                                        color: Colors.white))),
+                                          )
+                                        : Container(
+                                            height: 32,
+                                            width: size.width / 2.4,
+                                            margin: EdgeInsets.only(right: 10),
+                                            decoration: BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 2, 198, 228),
+                                                borderRadius:
+                                                    BorderRadius.circular(7)),
+                                            child: Center(
+                                                child: Text(
+                                              "Follow",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )),
+                                          ));
+                              },
                             ),
+
                             Expanded(child: Text("")),
                             Container(
                               decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 36, 36, 36),
+                                  color: Color.fromARGB(154, 89, 89, 89),
                                   borderRadius: BorderRadius.circular(7)),
                               height: 32,
                               width: size.width / 2.4,
-                              margin: EdgeInsets.only(top: 20),
                               child: TextButton(
                                   onPressed: () {
                                     Navigator.of(context)
@@ -305,8 +354,7 @@ class FriendaccountState extends State<Friendaccount>
                                             builder: (context) => Chatpage(
                                                   friendimageurl: profile,
                                                   friendusername: username,
-                                                  frienduserid:
-                                                      data['userid'],
+                                                  frienduserid: data['userid'],
                                                 )));
                                   },
                                   child: Text(
@@ -316,12 +364,12 @@ class FriendaccountState extends State<Friendaccount>
                             ),
                             Expanded(child: Text("")),
                             // Container(
-              
+
                             //   margin: EdgeInsets.only(top: 20),
                             //   width: 33,
                             //   height: 32,
                             //   child: IconButton(
-                            //       onPressed: null,
+                            //       onPressed: (){},
                             //       icon: Icon(
                             //         Icons.person_add,
                             //         size: 17,
@@ -358,12 +406,12 @@ class FriendaccountState extends State<Friendaccount>
                             if (snapshot.hasError) {
                               return Text('Something went wrong');
                             }
-              
+
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return Text("Loading..");
                             }
-              
+
                             return Container(
                               margin: EdgeInsets.only(right: 15),
                               child: GridView.count(
@@ -374,9 +422,9 @@ class FriendaccountState extends State<Friendaccount>
                                     NeverScrollableScrollPhysics(), // Disable scrolling of the grid
                                 children: snapshot.data!.docs
                                     .map((DocumentSnapshot document) {
-                                  Map<String, dynamic> data = document.data()!
-                                      as Map<String, dynamic>;
-              
+                                  Map<String, dynamic> data =
+                                      document.data()! as Map<String, dynamic>;
+
                                   return GestureDetector(
                                     onTap: (() {
                                       Navigator.of(context)
@@ -390,14 +438,11 @@ class FriendaccountState extends State<Friendaccount>
                                       margin:
                                           EdgeInsets.only(top: 15, left: 15),
                                       decoration: BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 28, 28, 28),
-                                        borderRadius:
-                                            BorderRadius.circular(8),
+                                        color: Color.fromARGB(120, 88, 88, 88),
+                                        borderRadius: BorderRadius.circular(8),
                                         image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image:
-                                              NetworkImage(data['imagerul']),
+                                          image: NetworkImage(data['imagerul']),
                                         ),
                                       ),
                                     ),
@@ -416,19 +461,19 @@ class FriendaccountState extends State<Friendaccount>
                             if (snapshot.hasError) {
                               return Text('Something went wrong');
                             }
-              
+
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return Text("Loading..");
                             }
-              
+
                             return Container(
                               child: Column(
                                 children: snapshot.data!.docs
                                     .map((DocumentSnapshot document) {
-                                  Map<String, dynamic> data = document.data()!
-                                      as Map<String, dynamic>;
-              
+                                  Map<String, dynamic> data =
+                                      document.data()! as Map<String, dynamic>;
+
                                   return Container(
                                     margin: EdgeInsets.only(top: 20),
                                     child: Column(children: [
@@ -439,11 +484,10 @@ class FriendaccountState extends State<Friendaccount>
                                             Container(
                                               width: 35,
                                               height: 35,
-                                              margin:
-                                                  EdgeInsets.only(left: 15),
+                                              margin: EdgeInsets.only(left: 15),
                                               decoration: BoxDecoration(
                                                   color: Color.fromARGB(
-                                                      255, 74, 74, 74),
+                                                      109, 74, 74, 74),
                                                   image: DecorationImage(
                                                       fit: BoxFit.cover,
                                                       image: NetworkImage(
@@ -454,30 +498,26 @@ class FriendaccountState extends State<Friendaccount>
                                             ),
                                             Container(
                                               alignment: Alignment.center,
-                                              margin:
-                                                  EdgeInsets.only(left: 15),
+                                              margin: EdgeInsets.only(left: 15),
                                               child: Text(
                                                 username,
                                                 style: TextStyle(
-                                                    wordSpacing: 3,
-                                                    letterSpacing: 0.6,
-                                                    fontSize: 15,
-                                                    fontFamily: 'Right',
-                                                    color: Color.fromARGB(
-                                                        255, 255, 255, 255)),
+                                                  wordSpacing: 3,
+                                                  letterSpacing: 0.6,
+                                                  fontSize: 15,
+                                                  fontFamily: 'Right',
+                                                ),
                                               ),
                                             ),
                                             Expanded(
                                               child: Text(""),
                                             ),
                                             Container(
-                                              margin:
-                                                  EdgeInsets.only(right: 5),
+                                              margin: EdgeInsets.only(right: 5),
                                               child: IconButton(
-                                                  onPressed: null,
+                                                  onPressed: () {},
                                                   icon: const Icon(
                                                     Icons.more_vert,
-                                                    color: Colors.white,
                                                     size: 27,
                                                   )),
                                             )
@@ -505,8 +545,8 @@ class FriendaccountState extends State<Friendaccount>
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(14),
-                                              color: const Color.fromARGB(
-                                                  255, 55, 55, 55),
+                                              color: Color.fromARGB(
+                                                  117, 67, 67, 67),
                                               image: DecorationImage(
                                                   fit: BoxFit.fitWidth,
                                                   image: NetworkImage(
@@ -520,13 +560,10 @@ class FriendaccountState extends State<Friendaccount>
                                             left: 15,
                                             right: 15,
                                             bottom: 5),
-                                        color: const Color.fromARGB(
-                                            255, 0, 0, 0),
                                         width: double.infinity,
                                         child: Text(
                                           data['text'],
-                                          style:
-                                              TextStyle(color: Colors.white),
+                                          style: TextStyle(color: Colors.white),
                                         ),
                                       ),
                                       Row(children: [
@@ -537,11 +574,8 @@ class FriendaccountState extends State<Friendaccount>
                                           child: IconButton(
                                               onPressed: () {},
                                               icon: const Icon(
-                                                Icons
-                                                    .favorite_border_outlined,
+                                                Icons.favorite_border_outlined,
                                                 size: 32,
-                                                color: Color.fromARGB(
-                                                    255, 255, 255, 255),
                                               )),
                                         ),
                                         Container(
@@ -556,19 +590,19 @@ class FriendaccountState extends State<Friendaccount>
                                                         // caption: data[
                                                         //     'text'],
                                                         userid: widget.userid,
-              
+
                                                         postid:
                                                             data['Timestamp'],
                                                       ))),
-                                              icon: Image.asset(
-                                                  "assets/images/chat.png")),
+                                              icon: ImageIcon(AssetImage(
+                                                  "assets/images/chat.png"))),
                                         ),
                                         Container(
                                           width: 40,
                                           child: IconButton(
-                                              onPressed: null,
-                                              icon: Image.asset(
-                                                  "assets/images/send.png")),
+                                              onPressed: () {},
+                                              icon: ImageIcon(AssetImage(
+                                                  "assets/images/send.png"))),
                                         ),
                                         Expanded(
                                           child: Text(""),
@@ -577,9 +611,9 @@ class FriendaccountState extends State<Friendaccount>
                                           width: 45,
                                           margin: EdgeInsets.only(right: 5),
                                           child: IconButton(
-                                              onPressed: null,
-                                              icon: Image.asset(
-                                                  "assets/images/mark.png")),
+                                              onPressed: () {},
+                                              icon: ImageIcon(AssetImage(
+                                                  "assets/images/mark.png"))),
                                         ),
                                       ])
                                     ]),

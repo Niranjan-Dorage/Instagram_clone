@@ -5,11 +5,13 @@ class Reels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-
-      backgroundColor: Color.fromARGB(255, 0, 0, 0),
+    return Scaffold(
       body: Center(
-        child: Container(child: Text("Reels",style: TextStyle(fontSize: 20,color: Colors.white),)),
+        child: Container(
+            child: Text(
+          "Reels",
+          style: TextStyle(fontSize: 20),
+        )),
       ),
     );
   }

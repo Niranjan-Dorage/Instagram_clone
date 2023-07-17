@@ -36,10 +36,8 @@ class Comments extends StatelessWidget {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
-        appBar: 
-   AppBar(
+        appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Color.fromARGB(255, 27, 24, 24),
           title: Row(
             children: [
               Container(
@@ -47,7 +45,6 @@ class Comments extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                     icon: Icon(
                       Icons.navigate_before_rounded,
-                      color: Colors.white,
                       size: 40,
                     )),
               ),
@@ -55,38 +52,35 @@ class Comments extends StatelessWidget {
               Container(
                 child: Text(
                   "Comments",
-                  style: TextStyle(fontSize: 21, color: Colors.white),
+                  style: TextStyle(fontSize: 21),
                 ),
               ),
               Expanded(child: Text("")),
               Container(
-                width: 44,
-                child: IconButton(
-                    onPressed: () async {
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(userid)
-                          .collection('data')
-                          .doc(userid)
-                          .collection('posts')
-                          .doc(postid)
-                          .collection('comments')
-                          .add({
-                        'commentText': commentcontroller.text,
-                        'timestamp': DateTime.now(),
-                        'username': username,
-                      });
-                      commentcontroller.text = "";
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                    },
-                    icon: Image(image: AssetImage("assets/images/send.png"))),
-              ),
+                  width: 44,
+                  child: IconButton(
+                      onPressed: () async {
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(userid)
+                            .collection('data')
+                            .doc(userid)
+                            .collection('posts')
+                            .doc(postid)
+                            .collection('comments')
+                            .add({
+                          'commentText': commentcontroller.text,
+                          'timestamp': DateTime.now(),
+                          'username': username,
+                        });
+                        commentcontroller.text = "";
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                      },
+                      icon: ImageIcon(AssetImage("assets/images/send.png")))),
             ],
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 27, 24, 24),
-        body:
-         SafeArea(
+        body: SafeArea(
             child: Column(
           children: [
             Expanded(
@@ -146,7 +140,7 @@ class Comments extends StatelessWidget {
                                     left: 10, right: 10, top: 10),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: Color.fromARGB(255, 40, 40, 40),
+                                  color: Color.fromARGB(179, 67, 67, 67),
                                 ),
                                 child: Container(
                                   width: double.infinity,
@@ -159,6 +153,7 @@ class Comments extends StatelessWidget {
                                         child: Text(
                                           data['username'],
                                           style: TextStyle(
+                                          
                                             color: Color.fromARGB(
                                                 255, 1, 218, 252),
                                           ),
@@ -196,7 +191,7 @@ class Comments extends StatelessWidget {
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 0.5),
                   borderRadius: BorderRadius.circular(10)),
-              margin: EdgeInsets.only(bottom: 10, left: 2, right: 2),
+              margin: EdgeInsets.only(bottom: 10, left: 5, right: 5),
               child: TextField(
                 controller: commentcontroller,
                 cursorColor: Color.fromARGB(255, 0, 203, 200),
@@ -206,7 +201,7 @@ class Comments extends StatelessWidget {
                   fontSize: 20,
                 ),
                 decoration: InputDecoration(
-                  fillColor: Color.fromARGB(255, 44, 44, 44),
+                  fillColor: Color.fromARGB(173, 51, 51, 51),
                   filled: true,
                   border: OutlineInputBorder(
                     borderSide: BorderSide(

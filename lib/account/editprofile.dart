@@ -44,7 +44,6 @@ class Editprofile extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromARGB(255, 0, 0, 0),
             title: Row(
               children: [
                 Container(
@@ -53,7 +52,6 @@ class Editprofile extends StatelessWidget {
                       onPressed: () => Navigator.pop(context),
                       icon: Icon(
                         Icons.navigate_before_rounded,
-                        color: Colors.white,
                         size: 40,
                       )),
                 ),
@@ -61,13 +59,12 @@ class Editprofile extends StatelessWidget {
                   margin: EdgeInsets.only(top: 10),
                   child: Text(
                     "Edit Profile",
-                    style: TextStyle(fontSize: 19, color: Colors.white),
+                    style: TextStyle(fontSize: 19),
                   ),
                 ),
               ],
             ),
           ),
-          backgroundColor: Colors.black,
           body: StreamBuilder<QuerySnapshot>(
             stream: userstream,
             builder:
@@ -100,11 +97,10 @@ class Editprofile extends StatelessWidget {
                                         fit: BoxFit.cover,
                                         image: NetworkImage(data['imageurl'])),
                                     borderRadius: BorderRadius.circular(1000),
-                                    color:
-                                        const Color.fromARGB(255, 49, 49, 49)),
+                                    color: Color.fromARGB(163, 62, 62, 62)),
                                 child: IconButton(
                                     onPressed: () async {
-                                    deleteImage();
+                                      deleteImage();
 
                                       PickedFile? file =
                                           // ignore: deprecated_member_use
@@ -156,13 +152,11 @@ class Editprofile extends StatelessWidget {
                               top: 35, left: 15, right: 15, bottom: 20),
                           height: 45,
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 69, 69, 69),
+                            color: Color.fromARGB(151, 69, 69, 69),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: TextField(
                             controller: usernamecontroller,
-                            cursorColor:
-                                const Color.fromARGB(255, 255, 255, 255),
                             keyboardType: TextInputType.name,
                             style: TextStyle(
                               fontFamily: "roboto",
@@ -187,13 +181,11 @@ class Editprofile extends StatelessWidget {
                               EdgeInsets.only(left: 15, right: 15, bottom: 20),
                           height: 45,
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 69, 69, 69),
+                            color: Color.fromARGB(151, 69, 69, 69),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: TextField(
                             controller: phonecontroller,
-                            cursorColor:
-                                const Color.fromARGB(255, 255, 255, 255),
                             keyboardType: TextInputType.phone,
                             style: TextStyle(
                               fontFamily: "roboto",
