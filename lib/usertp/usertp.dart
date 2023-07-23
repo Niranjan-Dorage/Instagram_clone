@@ -77,7 +77,45 @@ class _useristpState extends State<useristp> {
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("");
+                return Column(
+                  children: <Widget>[
+                    Container(
+                      height: 130,
+                      margin: EdgeInsets.only(left: 10),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Story(
+                              imglink:
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&s"),
+                          Story(
+                              imglink:
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&s"),
+                          Story(
+                              imglink:
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&s"),
+                          Story(
+                              imglink:
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&s"),
+                          Story(
+                              imglink:
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&s"),
+                          Story(
+                              imglink:
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&s"),
+                          Story(
+                              imglink:
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&s"),
+                        ],
+                      ),
+                    ),
+                    Card(
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&",
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxSjDspL-igTNNFJNftOfcEdtd-h_SaBkW0DGyOI3HQ&s",
+                      "",
+                    )
+                  ],
+                );
               }
 
               return Container(
@@ -177,7 +215,7 @@ class _CardState extends State<Card> {
                 height: 35,
                 margin: EdgeInsets.only(left: 15),
                 decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Color.fromARGB(89, 117, 117, 117),
                     image: DecorationImage(
                         fit: BoxFit.cover, image: NetworkImage(widget.profile)),
                     borderRadius: BorderRadius.circular(150)),
@@ -226,6 +264,7 @@ class _CardState extends State<Card> {
             height: 500,
             margin: EdgeInsets.only(left: 3, right: 3),
             decoration: BoxDecoration(
+                color: Color.fromARGB(255, 50, 50, 50),
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
                     fit: BoxFit.fitWidth, image: NetworkImage(widget.post))),

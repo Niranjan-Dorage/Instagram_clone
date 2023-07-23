@@ -14,6 +14,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
+    final SearchController = TextEditingController();
     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('users')
         // .where('userid', isEqualTo: userId?.uid
@@ -45,7 +46,37 @@ class _SearchState extends State<Search> {
                       Expanded(
                         child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: MyCustomForm()),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 10),
+                              height: 50,
+                              padding: EdgeInsets.only(left: 10),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 211, 211, 211),
+                                borderRadius: BorderRadius.circular(11),
+                              ),
+                              child: TextField(
+                                controller: SearchController,
+                                cursorColor: Colors.black,
+                                keyboardType: TextInputType.name,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: 20,
+                                ),
+                                decoration: InputDecoration(
+                                  hintStyle: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                  hintText: 'Search Your Friends ',
+                                  suffixIcon: Icon(
+                                    Icons.search,
+                                    color: Colors.black,
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                              ),
+                            )),
                       ),
                     ],
                   ),
@@ -58,9 +89,8 @@ class _SearchState extends State<Search> {
                       }
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text("Loading..");
+                        return Text("");
                       }
-
                       return Container(
                         margin: EdgeInsets.only(top: 10),
                         child: Column(
@@ -68,7 +98,10 @@ class _SearchState extends State<Search> {
                               .map((DocumentSnapshot document) {
                             Map<String, dynamic> data =
                                 document.data()! as Map<String, dynamic>;
-
+                            // if(SearchController.text.isEmpty){
+                            // }
+                            // elseif(){}
+                            // else{}
                             return GestureDetector(
                               onTap: (() {
                                 Navigator.of(context).push(MaterialPageRoute(
@@ -121,39 +154,9 @@ class _SearchState extends State<Search> {
                                             } else {
                                               value.follow(data['userid']);
                                             }
-
-                                            // await FirebaseFirestore.instance
-                                            //     .collection('users')
-                                            //     .doc(FirebaseAuth
-                                            //         .instance.currentUser!.uid)
-                                            //     .collection('data')
-                                            //     .doc(FirebaseAuth
-                                            //         .instance.currentUser!.uid)
-                                            //     .collection('following')
-                                            //     .doc()
-                                            //     .set(
-                                            //         {'userid': data['userid']});
-                                            // await FirebaseFirestore.instance
-                                            //     .collection('users')
-                                            //     .doc(data['userid'])
-                                            //     .collection('data')
-                                            //     .doc(data['userid'])
-                                            //     .collection('followers')
-                                            //     .doc()
-                                            //     .set({
-                                            //   'userid': FirebaseAuth
-                                            //       .instance.currentUser!.uid
-                                            // });
-
-                                            // setState(() {
-                                            //   if (pressed) {
-                                            //     pressed = false;
-                                            //   } else {
-                                            //     pressed = true;
-                                            //   }
-                                            // });
                                           },
-                                          child: value.isFollowed(data['userid'])
+                                          child: value
+                                                  .isFollowed(data['userid'])
                                               ? Container(
                                                   height: 40,
                                                   width: size.width / 3.5,
@@ -189,27 +192,7 @@ class _SearchState extends State<Search> {
                                                         color: Colors.white),
                                                   )),
                                                 ));
-                                    }
-                                        // else {
-                                        //   return Container(
-                                        //     height: 40,
-                                        //     width: size.width / 3.5,
-                                        //     margin: EdgeInsets.only(right: 10),
-                                        //     decoration: BoxDecoration(
-                                        //         color: Color.fromARGB(
-                                        //             145, 102, 102, 102),
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(7)),
-                                        //     child: Center(
-                                        //         child: Text(
-                                        //       "Following",
-                                        //       style: TextStyle(
-                                        //           color: Colors.white),
-                                        //     )),
-                                        //   );
-                                        // }
-
-                                        ),
+                                    }),
                                   ],
                                 ),
                               ),
@@ -229,47 +212,16 @@ class _SearchState extends State<Search> {
   }
 }
 
-class MyCustomForm extends StatefulWidget {
-  MyCustomForm({super.key});
-  @override
-  State<MyCustomForm> createState() => _MyCustomFormState();
-}
+// class MyCustomForm extends StatefulWidget {
 
-class _MyCustomFormState extends State<MyCustomForm> {
-  @override
-  Widget build(BuildContext context) {
-    final SearchController = TextEditingController();
+//   MyCustomForm({super.key});
+//   @override
+//   State<MyCustomForm> createState() => _MyCustomFormState();
+// }
 
-    return (Container(
-      margin: EdgeInsets.only(top: 10),
-      height: 50,
-      padding: EdgeInsets.only(left: 10),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 211, 211, 211),
-        borderRadius: BorderRadius.circular(11),
-      ),
-      child: TextField(
-        controller: SearchController,
-        cursorColor: Colors.black,
-        keyboardType: TextInputType.name,
-        style: TextStyle(
-          color: Color.fromARGB(255, 0, 0, 0),
-          fontSize: 20,
-        ),
-        decoration: InputDecoration(
-          hintStyle: TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0),
-              fontSize: 17,
-              fontWeight: FontWeight.bold),
-          hintText: 'Search Your Friends ',
-          suffixIcon: Icon(
-            Icons.search,
-            color: Colors.black,
-          ),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(10),
-        ),
-      ),
-    ));
-  }
-}
+// class _MyCustomFormState extends State<MyCustomForm> {
+//   @override
+//   Widget build(BuildContext context) {
+   
+//   }
+// }

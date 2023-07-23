@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:insta_clone/provider/followbuttonprovider.dart';
+import 'package:insta_clone/provider/postupload.dart';
+import 'package:insta_clone/provider/profileupload.dart';
 import 'package:insta_clone/provider/redlikeprovider.dart';
 import 'package:insta_clone/provider/themechanger.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +22,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => Redlikeprovider()),
         ChangeNotifierProvider(create: (_) => Followbuttonprovider()),
         ChangeNotifierProvider(create: (_) => Themechanger()),
+        ChangeNotifierProvider(create: (_) => Postupload()),
+        ChangeNotifierProvider(create: (_) => Profileupload()),
       ],
       child: Builder(builder: (BuildContext context) {
         final Thchanger = Provider.of<Themechanger>(context);
@@ -33,8 +37,7 @@ void main() async {
                 textButtonTheme: TextButtonThemeData(
                     style: TextButton.styleFrom(
                         // ignore: deprecated_member_use
-                        primary: const Color.fromARGB(255, 255, 255, 255))
-                        ),
+                        primary: const Color.fromARGB(255, 255, 255, 255))),
                 bottomNavigationBarTheme: BottomNavigationBarThemeData(
                   backgroundColor: Colors.black,
                   selectedIconTheme: IconThemeData(
@@ -57,8 +60,7 @@ void main() async {
                 ),
                 textButtonTheme: TextButtonThemeData(
                     // ignore: deprecated_member_use
-                    style: TextButton.styleFrom(primary: Colors.black)
-                    ),
+                    style: TextButton.styleFrom(primary: Colors.black)),
                 primaryColor: Colors.black,
                 bottomNavigationBarTheme: BottomNavigationBarThemeData(
                   backgroundColor: const Color.fromARGB(255, 255, 255, 255),

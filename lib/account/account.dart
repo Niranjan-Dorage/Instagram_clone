@@ -357,7 +357,8 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
 
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
-                                      return Text("Loading..");
+                                      return Center(
+                                          child: Text("Loading.."));
                                     }
 
                                     return Container(

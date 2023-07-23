@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:insta_clone/main.dart';
+import 'package:insta_clone/provider/profileupload.dart';
+import 'package:provider/provider.dart';
 
 class new_user extends StatefulWidget {
   const new_user({super.key});
@@ -174,219 +177,272 @@ class _new_userState extends State<new_user> {
                 ),
               ),
             ),
-
-            Center(
-              child: Container(
-                width: 60,
-                height: 60,
-                margin: const EdgeInsets.only(top: 25, bottom: 5),
+            Consumer<Profileupload>(builder: (context, value, child) {
+              return Center(
                 child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(198, 208, 208, 208),
-                      borderRadius: BorderRadius.circular(120)),
-                  child: IconButton(
-                      onPressed: () async {
-                        FocusScope.of(context).requestFocus(new FocusNode());
-
-                        // ignore: deprecated_member_use
-                        PickedFile? file =
-                            // ignore: deprecated_member_use
-                            await image.getImage(source: ImageSource.gallery);
-                        print('${file?.path}');
-
-                        // setState(() {
-                        //   file = File(img!.path);
-                        // });
-                        if (file == null) return;
-                        Reference referenceRoot =
-                            FirebaseStorage.instance.ref();
-                        Reference referenceDirImages =
-                            referenceRoot.child('images');
-                        Reference referenceimagetoupload =
-                            referenceDirImages.child(uniquefilename);
-
-                        // try {
-                        //   await referenceimagetoupload.putFile(File(file.path));
-                        //   imageurl =
-                        //       await referenceimagetoupload.getDownloadURL();
-                        // } catch (error) {}
-
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                width: size.width,
-                                height: size.height,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            });
-                        UploadTask uploadTask =
-                            referenceimagetoupload.putFile(File(file.path));
-
-                        uploadTask.whenComplete(() async {
-                          try {
-                            imageurl =
-                                await referenceimagetoupload.getDownloadURL();
-                          } catch (onError) {
-                            print("Error");
-                          }
-
-                          Navigator.of(context).pop();
-
-                          print(imageurl);
-                        });
-                      },
-                      icon: Icon(
-                        Icons.add_a_photo_outlined,
-                        color: Colors.black,
-                        size: 29,
-                      )),
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                height: 45,
-                width: double.infinity,
-                margin: EdgeInsets.only(top: 30, left: 15, right: 15),
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 1, 170, 217),
-                    borderRadius: BorderRadius.circular(30)),
-                child: TextButton(
-                  onPressed: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    );
-                    try {
-                      print("hello " + email + "  " + pass);
-                      await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                        email: email,
-                        password: pass,
-                      );
-
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser?.uid)
-                          .set({
-                        'email': email,
-                        'imageurl': imageurl,
-                        'phone': phone,
-                        'userid': FirebaseAuth.instance.currentUser?.uid,
-                        'username': username,
-                        'postcount': valuee,
-                        'followercount': valuee,
-                        'followingcount': valuee,
-                        'uniquefilename': uniquefilename,
-                      });
-
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) => editname()));
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'email-already-in-use') {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                // Retrieve the text the that user has entered by using the
-                                // TextEditingController.
-                                content: SizedBox(
-                                  height: 40,
-                                  // width: 450,
-                                  // margin: EdgeInsets.only(top: 200),
+                  width: 60,
+                  height: 60,
+                  margin: const EdgeInsets.only(top: 25, bottom: 5),
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(198, 208, 208, 208),
+                        borderRadius: BorderRadius.circular(120)),
+                    child: TextButton(
+                        onPressed: () async {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          // ignore: deprecated_member_use
+                          PickedFile? file =
+                              // ignore: deprecated_member_use
+                              await image.getImage(source: ImageSource.gallery);
+                          print('${file?.path}');
+                          if (file == null) return;
+                          Reference referenceRoot =
+                              FirebaseStorage.instance.ref();
+                          Reference referenceDirImages =
+                              referenceRoot.child('images');
+                          Reference referenceimagetoupload =
+                              referenceDirImages.child(uniquefilename);
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  width: size.width,
+                                  height: size.height,
                                   child: Center(
-                                      child: SizedBox(
-                                    // width: 450.0,
-                                    height: 40,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              });
+                          UploadTask uploadTask =
+                              referenceimagetoupload.putFile(File(file.path));
 
-                                    child: DefaultTextStyle(
-                                      style: const TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 27.0,
-                                          fontFamily: 'right'),
-                                      child: AnimatedTextKit(
-                                        animatedTexts: [
-                                          for (int i = 0; i < 2; i++)
-                                            TypewriterAnimatedText(
-                                                'email-already-in-use'),
-                                        ],
-                                        onTap: () {
-                                          print("Tap Event");
-                                        },
-                                      ),
-                                    ),
-                                  )),
-                                ),
-                              );
-                            });
-                        Timer(Duration(seconds: 3), () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        });
-                      } else if (e.code == 'weak-password') {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                // Retrieve the text the that user has entered by using the
-                                // TextEditingController.
-                                content: SizedBox(
-                                  height: 40,
-                                  // width: 450,
-                                  // margin: EdgeInsets.only(top: 200),
-                                  child: Center(
-                                      child: SizedBox(
-                                    // width: 450.0,
-                                    height: 40,
+                          uploadTask.whenComplete(() async {
+                            try {
+                              imageurl =
+                                  await referenceimagetoupload.getDownloadURL();
+                            } catch (onError) {
+                              print("Error");
+                            }
 
-                                    child: DefaultTextStyle(
-                                      style: const TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 27.0,
-                                          fontFamily: 'right'),
-                                      child: AnimatedTextKit(
-                                        animatedTexts: [
-                                          for (int i = 0; i < 2; i++)
-                                            TypewriterAnimatedText(
-                                                'Weak-Password'),
-                                        ],
-                                        onTap: () {
-                                          print("Tap Event");
-                                        },
-                                      ),
-                                    ),
-                                  )),
-                                ),
-                              );
-                            });
-                        Timer(Duration(seconds: 3), () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        });
-                      }
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
-                  child: Text(
-                    'Create',
-                    style: TextStyle(
-                        color: Colors.white, fontFamily: 'right', fontSize: 22),
+                            Navigator.of(context).pop();
+                            value.clicked(imageurl);
+                            print(imageurl);
+                          });
+                        },
+                        child: value.imageurl == ""
+                            ? Icon(
+                                Icons.add_a_photo_outlined,
+                                color: Colors.black,
+                                size: 29,
+                              )
+                            : Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(179, 205, 205, 205),
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(value.imageurl)),
+                                    borderRadius: BorderRadius.circular(100)),
+                              )),
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
+
+            Consumer<Profileupload>(builder: (context, value, child) {
+              return Center(
+                child: Container(
+                  height: 45,
+                  width: double.infinity,
+                  margin: EdgeInsets.only(top: 30, left: 15, right: 15),
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 1, 170, 217),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: TextButton(
+                    onPressed: () async {
+                      if (email == "" ||
+                          pass == "" ||
+                          phone == "" ||
+                          username == "") {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              child: const AlertDialog(
+                                backgroundColor:
+                                    Color.fromARGB(255, 69, 69, 69),
+                                title: Center(
+                                  child: Text(
+                                    'Please fill all the details',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 17),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else if (imageurl == "") {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              child: const AlertDialog(
+                                backgroundColor:
+                                    Color.fromARGB(255, 69, 69, 69),
+                                title: Center(
+                                  child: Text(
+                                    'Please upload the profile image',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 17),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        );
+                        try {
+                          await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                            email: email,
+                            password: pass,
+                          );
+
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(FirebaseAuth.instance.currentUser?.uid)
+                              .set({
+                            'email': email,
+                            'imageurl': imageurl,
+                            'phone': phone,
+                            'userid': FirebaseAuth.instance.currentUser?.uid,
+                            'username': username,
+                            'postcount': valuee,
+                            'followercount': valuee,
+                            'followingcount': valuee,
+                            'uniquefilename': uniquefilename,
+                          });
+                          value.clicked("");
+
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyAppp()));
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'email-already-in-use') {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    // Retrieve the text the that user has entered by using the
+                                    // TextEditingController.
+                                    content: SizedBox(
+                                      height: 40,
+                                      // width: 450,
+                                      // margin: EdgeInsets.only(top: 200),
+                                      child: Center(
+                                          child: SizedBox(
+                                        // width: 450.0,
+                                        height: 40,
+
+                                        child: DefaultTextStyle(
+                                          style: const TextStyle(
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0),
+                                              fontSize: 27.0,
+                                              fontFamily: 'right'),
+                                          child: AnimatedTextKit(
+                                            animatedTexts: [
+                                              for (int i = 0; i < 2; i++)
+                                                TypewriterAnimatedText(
+                                                    'email-already-in-use'),
+                                            ],
+                                            onTap: () {
+                                              print("Tap Event");
+                                            },
+                                          ),
+                                        ),
+                                      )),
+                                    ),
+                                  );
+                                });
+
+                            Timer(Duration(seconds: 3), () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            });
+                          } else if (e.code == 'weak-password') {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    // Retrieve the text the that user has entered by using the
+                                    // TextEditingController.
+                                    content: SizedBox(
+                                      height: 40,
+                                      // width: 450,
+                                      // margin: EdgeInsets.only(top: 200),
+                                      child: Center(
+                                          child: SizedBox(
+                                        // width: 450.0,
+                                        height: 40,
+
+                                        child: DefaultTextStyle(
+                                          style: const TextStyle(
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0),
+                                              fontSize: 27.0,
+                                              fontFamily: 'right'),
+                                          child: AnimatedTextKit(
+                                            animatedTexts: [
+                                              for (int i = 0; i < 2; i++)
+                                                TypewriterAnimatedText(
+                                                    'Weak-Password'),
+                                            ],
+                                            onTap: () {
+                                              print("Tap Event");
+                                            },
+                                          ),
+                                        ),
+                                      )),
+                                    ),
+                                  );
+                                });
+                            Timer(Duration(seconds: 3), () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            });
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      }
+                    },
+                    child: Text(
+                      'Create',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'right',
+                          fontSize: 22),
+                    ),
+                  ),
+                ),
+              );
+            })
           ]),
         ),
       ),

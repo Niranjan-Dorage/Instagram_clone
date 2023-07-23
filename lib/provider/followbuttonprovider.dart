@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-
 // class Followbuttonprovider with ChangeNotifier {
 //   bool followed = false;
 //   void clicked() {
