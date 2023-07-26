@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -205,6 +202,7 @@ class _new_userState extends State<new_user> {
                           Reference referenceimagetoupload =
                               referenceDirImages.child(uniquefilename);
                           showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) {
                                 return Container(
@@ -306,6 +304,7 @@ class _new_userState extends State<new_user> {
                         );
                       } else {
                         showDialog(
+                          barrierDismissible: false,
                           context: context,
                           builder: (context) {
                             return Center(
@@ -345,87 +344,42 @@ class _new_userState extends State<new_user> {
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'email-already-in-use') {
                             showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    // Retrieve the text the that user has entered by using the
-                                    // TextEditingController.
-                                    content: SizedBox(
-                                      height: 40,
-                                      // width: 450,
-                                      // margin: EdgeInsets.only(top: 200),
-                                      child: Center(
-                                          child: SizedBox(
-                                        // width: 450.0,
-                                        height: 40,
-
-                                        child: DefaultTextStyle(
-                                          style: const TextStyle(
-                                              color:
-                                                  Color.fromARGB(255, 0, 0, 0),
-                                              fontSize: 27.0,
-                                              fontFamily: 'right'),
-                                          child: AnimatedTextKit(
-                                            animatedTexts: [
-                                              for (int i = 0; i < 2; i++)
-                                                TypewriterAnimatedText(
-                                                    'email-already-in-use'),
-                                            ],
-                                            onTap: () {
-                                              print("Tap Event");
-                                            },
-                                          ),
-                                        ),
-                                      )),
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  child: const AlertDialog(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 69, 69, 69),
+                                    title: Center(
+                                      child: Text(
+                                        'email-already-in-use',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 17),
+                                      ),
                                     ),
-                                  );
-                                });
-
-                            Timer(Duration(seconds: 3), () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            });
+                                  ),
+                                );
+                              },
+                            );
                           } else if (e.code == 'weak-password') {
                             showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    // Retrieve the text the that user has entered by using the
-                                    // TextEditingController.
-                                    content: SizedBox(
-                                      height: 40,
-                                      // width: 450,
-                                      // margin: EdgeInsets.only(top: 200),
-                                      child: Center(
-                                          child: SizedBox(
-                                        // width: 450.0,
-                                        height: 40,
-
-                                        child: DefaultTextStyle(
-                                          style: const TextStyle(
-                                              color:
-                                                  Color.fromARGB(255, 0, 0, 0),
-                                              fontSize: 27.0,
-                                              fontFamily: 'right'),
-                                          child: AnimatedTextKit(
-                                            animatedTexts: [
-                                              for (int i = 0; i < 2; i++)
-                                                TypewriterAnimatedText(
-                                                    'Weak-Password'),
-                                            ],
-                                            onTap: () {
-                                              print("Tap Event");
-                                            },
-                                          ),
-                                        ),
-                                      )),
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  child: const AlertDialog(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 69, 69, 69),
+                                    title: Center(
+                                      child: Text(
+                                        'Weak Password',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 17),
+                                      ),
                                     ),
-                                  );
-                                });
-                            Timer(Duration(seconds: 3), () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            });
+                                  ),
+                                );
+                              },
+                            );
                           }
                         } catch (e) {
                           print(e);

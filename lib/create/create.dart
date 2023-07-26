@@ -79,6 +79,8 @@ class _CreatepostState extends State<Createpost> {
                                 //       await referenceimagetoupload.getDownloadURL();
                                 // } catch (error) {}
                                 showDialog(
+                                  barrierDismissible: false,
+                                  
                                     context: context,
                                     builder: (context) {
                                       return Center(
@@ -171,6 +173,7 @@ class _CreatepostState extends State<Createpost> {
                                 //       await referenceimagetoupload.getDownloadURL();
                                 // } catch (error) {}
                                 showDialog(
+                                  barrierDismissible: false,
                                     context: context,
                                     builder: (context) {
                                       return Center(
@@ -286,6 +289,8 @@ class _CreatepostState extends State<Createpost> {
                           );
                         } else {
                           showDialog(
+                                  barrierDismissible: false,
+
                               context: context,
                               builder: (context) {
                                 return Center(

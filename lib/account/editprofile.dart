@@ -118,6 +118,7 @@ class Editprofile extends StatelessWidget {
                                               .child(uniquefilename);
 
                                       showDialog(
+                                          barrierDismissible: false,
                                           context: context,
                                           builder: (context) {
                                             return Center(

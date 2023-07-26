@@ -1,7 +1,9 @@
+// flutter build apk --no-shrink --split-per-abi
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:insta_clone/permissions/notification.dart';
 
 import 'package:insta_clone/usertp/story.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +17,13 @@ class useristp extends StatefulWidget {
 }
 
 class _useristpState extends State<useristp> {
+  NotificationServices notificationServices = NotificationServices();
+  @override
+  void initState() {
+    super.initState();
+    notificationServices.RequestNotificationPermission();
+  }
+
   @override
   Widget build(BuildContext context) {
     User? userId = FirebaseAuth.instance.currentUser;
