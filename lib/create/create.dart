@@ -20,11 +20,11 @@ class _CreatepostState extends State<Createpost> {
   ImagePicker image = ImagePicker();
   @override
   Widget build(BuildContext context) {
-    String uniquefilename = FirebaseAuth.instance.currentUser!.uid;
     // final docUser = FirebaseFirestore.instance.collection('users').doc();
     String imageurl = "";
     final describe = TextEditingController();
 
+    String uniquefilename = FirebaseAuth.instance.currentUser!.uid;
     DateTime timestamp = DateTime.now();
     String timestampString =
         DateFormat('yyyy-MM-dd HH:mm:ss').format(timestamp);
@@ -79,8 +79,7 @@ class _CreatepostState extends State<Createpost> {
                                 //       await referenceimagetoupload.getDownloadURL();
                                 // } catch (error) {}
                                 showDialog(
-                                  barrierDismissible: false,
-                                  
+                                    barrierDismissible: false,
                                     context: context,
                                     builder: (context) {
                                       return Center(
@@ -173,7 +172,7 @@ class _CreatepostState extends State<Createpost> {
                                 //       await referenceimagetoupload.getDownloadURL();
                                 // } catch (error) {}
                                 showDialog(
-                                  barrierDismissible: false,
+                                    barrierDismissible: false,
                                     context: context,
                                     builder: (context) {
                                       return Center(
@@ -289,8 +288,7 @@ class _CreatepostState extends State<Createpost> {
                           );
                         } else {
                           showDialog(
-                                  barrierDismissible: false,
-
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) {
                                 return Center(

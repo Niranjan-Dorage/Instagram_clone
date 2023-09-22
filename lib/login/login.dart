@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -21,8 +20,7 @@ class _LoginpageState extends State<Loginpage> {
   void signUserIn(context) async {
     // show loading circle
     showDialog(
-                                        barrierDismissible: false,
-
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return Center(
@@ -66,7 +64,6 @@ class _LoginpageState extends State<Loginpage> {
     // call this method here to hide soft keyboard
     FocusScope.of(context).requestFocus(new FocusNode());
     showDialog(
-
       context: context,
       builder: (BuildContext context) {
         return Container(
@@ -82,7 +79,6 @@ class _LoginpageState extends State<Loginpage> {
         );
       },
     );
-   
   }
 
   // wrong password message popup
@@ -104,7 +100,6 @@ class _LoginpageState extends State<Loginpage> {
         );
       },
     );
-   
   }
 
   @override
